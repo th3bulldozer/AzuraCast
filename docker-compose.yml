@@ -9,7 +9,7 @@ services:
     ports:
       - "8052:80"         # Painel web acessível via http://IP:8052
       - "8453:443"        # HTTPS opcional (pode remover se usar proxy)
-      - "8500-8550:8000-8050" # Portas das rádios (ajuste conforme necessidade)
+      - "18500-18550:8000-8050" # Portas das rádios (ajuste conforme necessidade)
     volumes:
       - azuracast_data:/var/azuracast
     environment:
