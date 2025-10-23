@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  azuracast:
+    image: azuracast/azuracast:latest
+    container_name: azuracast_app
+    restart: always
+    # Altere as portas abaixo conforme disponibilidade
+    ports:
+      - "8052:80"         # Painel web acessível via http://IP:8052
+      - "8453:443"        # HTTPS opcional (pode remover se usar proxy)
+      - "8500-8550:8000-8050" # Portas das rádios (ajuste conforme necessidade)
+    volumes:
+      - azuracast_data:/var/azuracast
+    environment:
+      - AZURACAST_HTTP_PORT=80
+      - AZURACAST_HTTPS_PORT=443
+      - AUTO_ASSIGN_PORT_MIN=8000
+      - AUTO_ASSIGN_PORT_MAX=8050
+      - TZ=America/Sao_Paulo
+
+volumes:
+  azuracast_data:
