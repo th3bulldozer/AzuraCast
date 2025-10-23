@@ -18,6 +18,22 @@ services:
       - AUTO_ASSIGN_PORT_MIN=8000
       - AUTO_ASSIGN_PORT_MAX=8050
       - TZ=America/Sao_Paulo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.azuracast.rule=Host(`radio.novasorocaba.net`)"
+      - "traefik.http.routers.azuracast.entrypoints=https"
+      - "traefik.http.routers.azuracast.tls.certresolver=letsencrypt"
+      - "traefik.http.services.azuracast.loadbalancer.server.port=80"
+      - "traefik.http.routers.azuracast-http.rule=Host(`radio.novasorocaba.net`)"
+      - "traefik.http.routers.azuracast-http.entrypoints=http"
+      - "traefik.http.routers.azuracast-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.force-https.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.azuracast.middlewares=force-https"
 
 volumes:
   azuracast_data:
+
+networks:
+  coolify:
+    external: true
